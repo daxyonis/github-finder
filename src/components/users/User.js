@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { Fragment } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
+import { Repos } from '../repos/Repos';
 
 function User({
   getUser,
+  getUserRepos,
   loading,
   user: {
     name,
@@ -20,11 +22,13 @@ function User({
     public_repos,
     public_gists,
   },
+  repos,
 }) {
   const { login } = useParams();
 
   useEffect(() => {
     getUser(login);
+    getUserRepos(login);
   }, []);
 
   if (loading) return <Spinner />;
@@ -92,6 +96,7 @@ function User({
         <div className='badge badge-light'>Public repos: {public_repos}</div>
         <div className='badge badge-dark'>Public gists: {public_gists}</div>
       </div>
+      <Repos repos={repos} />
     </Fragment>
   );
 }
