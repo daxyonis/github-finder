@@ -4,11 +4,10 @@ import { Link, useParams } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
 import { Repos } from '../repos/Repos';
 
-function User({
-  getUser,
-  getUserRepos,
-  loading,
-  user: {
+const User = ({ getUser, getUserRepos, loading, user, repos }) => {
+  const { login } = useParams();
+
+  const {
     name,
     avatar_url,
     hireable,
@@ -21,14 +20,12 @@ function User({
     following,
     public_repos,
     public_gists,
-  },
-  repos,
-}) {
-  const { login } = useParams();
+  } = user;
 
   useEffect(() => {
     getUser(login);
     getUserRepos(login);
+    // eslint-disable-next-line
   }, []);
 
   if (loading) return <Spinner />;
@@ -99,33 +96,6 @@ function User({
       <Repos repos={repos} />
     </Fragment>
   );
-}
+};
 
-/* export class User extends Component {
-  componentDidMount() {
-    this.props.getUser(this.props.match.params.login);
-  }
-
-  render() {
-    const {
-      name,
-      avatar_url,
-      location,
-      bio,
-      blog,
-      login,
-      html_url,
-      followers,
-      following,
-      public_repos,
-      public_gists,
-      hireable,
-    } = this.props.user;
-
-    const { loading } = this.props;
-
-    return <div>{name}</div>;
-  }
-}
- */
 export default User;
